@@ -1,8 +1,8 @@
-const stripe = require('stripe')('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');
+const stripe = require('stripe')(process.env.stripe_sk);
 const express = require('express');
 
 const { createClient } = require('@supabase/supabase-js')
-const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlc2J4eW51b2JjbnFmZHFleGljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3NzU4MzM5NywiZXhwIjoxOTkzMTU5Mzk3fQ.LdAzK9mbZpoO0Lz5Ep9p-1XzlvQxybr8pv5GNO7SsKc', {
+const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', process.env.sb_sk, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
