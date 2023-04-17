@@ -28,6 +28,7 @@ app.post('/create-checkout', async (req, res) => {
   .eq('user_id', String(req.body.userId))
 
   if (data.length > 0 && !error) {
+    console.log(data)
     const customer = data[0]["customer_email"]
     const session = await stripe.checkout.sessions.create({
       line_items: [{price: req.body.priceId, quantity:1}],
