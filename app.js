@@ -22,6 +22,8 @@ app.use((req, res, next) => {
 const YOUR_DOMAIN = 'https://keywordcatcher.com';
 
 app.post('/create-checkout', async (req, res) => {  
+  // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
   let { data: data, error } = await supabase
   .from('customers')
   .select(`customer_id`)
@@ -74,6 +76,8 @@ app.post('/create-checkout', async (req, res) => {
 const endpointSecret = 'whsec_KpRGGMcdwq2DaJauPA3QNv1mOwnRjMy3';
 
 app.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
+  // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
   const sig = request.headers['stripe-signature'];
 
   let event;
@@ -111,6 +115,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (request, re
 });
 
 app.get('/history', async (request, response) => {
+  // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
 
   const paymentIntents = await stripe.paymentIntents.list({
     limit: 10,
