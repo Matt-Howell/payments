@@ -95,13 +95,13 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (request, re
 
     if (customers){
       const { data: user, error } = await supabase.auth.admin.getUserById(
-        customers[0]["cusId"]
+        customers[0]["user_id"]
       )
       if (user) {
         let credsToAdd = session.metadata.pi == "price_1MxarHDhsdMYodsiUbdm6yWo" ? 50000 : session.metadata.pi == "price_1MxapADhsdMYodsi3DpuxS2R" ? 10000 : session.metadata.pi == "price_1MxanUDhsdMYodsi9w3hiFQp" ? 1500 : 0
         const { data: updatedUser, errorUpdated } = await supabase.auth.admin.updateUserById(
-          customers[0]["cusId"],
-            { user_metadata: { credits: user.user.user_metadata.credits + credsToAdd } }
+          customers[0]["user_id"],
+          { user_metadata: { credits: user.user.user_metadata.credits + credsToAdd } }
         )
       }
     }
