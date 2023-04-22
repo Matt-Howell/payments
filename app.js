@@ -35,8 +35,8 @@ app.post('/create-checkout', async (req, res) => {
       mode: 'payment',
       allow_promotion_codes: true,
       customer,
-      success_url: `https://beta.${YOUR_DOMAIN}/`,
-      cancel_url: `https://beta.${YOUR_DOMAIN}/`,
+      success_url: `${YOUR_DOMAIN}/app`,
+      cancel_url: `${YOUR_DOMAIN}/app`,
       metadata:{pi:req.body.priceId}
     });
 
@@ -61,8 +61,8 @@ app.post('/create-checkout', async (req, res) => {
       mode: 'payment',
       allow_promotion_codes: true,
       customer,
-      success_url: `https://beta.${YOUR_DOMAIN}/`,
-      cancel_url: `https://beta.${YOUR_DOMAIN}/`,
+      success_url: `${YOUR_DOMAIN}/app`,
+      cancel_url: `${YOUR_DOMAIN}/app`,
       metadata:{pi:req.body.priceId}
     });
 
@@ -93,7 +93,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (request, re
     .select(`user_id, customer_email`)
     .eq('customer_id', String(session.customer))
 
-    if (stripeCustomers){
+    if (customers){
       const { data: user, error } = await supabase.auth.admin.getUserById(
         customers[0]["cusId"]
       )
