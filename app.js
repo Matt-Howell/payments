@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 const YOUR_DOMAIN = 'https://keywordcatcher.com';
 
 app.post('/create-checkout', async (req, res) => {  
-  response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  res.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
   // response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
   let { data: data, error } = await supabase
   .from('customers')
