@@ -22,8 +22,8 @@ app.use((req, res, next) => {
 const YOUR_DOMAIN = 'https://keywordcatcher.com';
 
 app.post('/create-checkout', async (req, res) => {  
-  // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
-  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+  response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  // response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
   let { data: data, error } = await supabase
   .from('customers')
   .select(`customer_id`)
@@ -77,7 +77,7 @@ const endpointSecret = 'whsec_KpRGGMcdwq2DaJauPA3QNv1mOwnRjMy3';
 
 app.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
   // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
-  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+  // response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
   const sig = request.headers['stripe-signature'];
 
   let event;
@@ -115,18 +115,20 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (request, re
 });
 
 app.get('/history', async (request, response) => {
-  // response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
-  response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+  response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  // response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
 
   const paymentIntents = await stripe.paymentIntents.list({
     limit: 10,
     customer: request.query.customer
   });
 
+  console.log(request.query.customer, paymentIntents)
+
   let successful = []
   paymentIntents.map((payment) => {
     if (payment.status == "succeeded"){
-      successful.push([`${String(new Date(payment.created*1000).getDate())}${String(new Date(payment.created*1000).getDate()).endsWith(1) ? "st" : String(new Date(payment.created*1000).getDate()).endsWith(2) ? "nd" : String(new Date(payment.created*1000).getDate()).endsWith(3) ? "rd" : "th"} ${new Date(payment.created*1000).toDateString().substring(4, 7)}, ${new Date(payment.created*1000).getFullYear()}`, (payment.amount / 100), (payment.metadata.pi == "price_1MxanUDhsdMYodsi9w3hiFQp" ? "1,500" : payment.metadata.pi == "price_1MxapADhsdMYodsi3DpuxS2R" ? "10,000" : "50,000")])
+      successful.push([, (payment.amount / 100), (payment.metadata.pi == "price_1MxanUDhsdMYodsi9w3hiFQp" ? "1,500" : payment.metadata.pi == "price_1MxapADhsdMYodsi3DpuxS2R" ? "10,000" : "50,000")])
     }
   })
 
