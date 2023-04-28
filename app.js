@@ -126,9 +126,9 @@ app.get('/history', async (request, response) => {
   console.log(request.query.customer, paymentIntents)
 
   let successful = []
-  paymentIntents.map((payment) => {
+  paymentIntents.data.map((payment) => {
     if (payment.status == "succeeded"){
-      successful.push([, (payment.amount / 100), (payment.metadata.pi == "price_1MxanUDhsdMYodsi9w3hiFQp" ? "1,500" : payment.metadata.pi == "price_1MxapADhsdMYodsi3DpuxS2R" ? "10,000" : "50,000")])
+      successful.push([`${String(new Date(payment.created*1000).getDate())}${String(new Date(payment.created*1000).getDate()).endsWith(1) ? "st" : String(new Date(payment.created*1000).getDate()).endsWith(2) ? "nd" : String(new Date(payment.created*1000).getDate()).endsWith(3) ? "rd" : "th"} ${new Date(payment.created*1000).toDateString().substring(4, 7)}, ${new Date(payment.created*1000).getFullYear()}`, (payment.amount / 100), (payment.metadata.pi == "price_1MxanUDhsdMYodsi9w3hiFQp" ? "1,500" : payment.metadata.pi == "price_1MxapADhsdMYodsi3DpuxS2R" ? "10,000" : "50,000")])
     }
   })
 
