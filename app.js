@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/add-credits', async (request, response) => {
-  response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  response.set('Access-Control-Allow-Origin', 'https://app.keywordcatcher.com')
   //response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
 
   let toAdd = request.query.number
@@ -39,7 +39,7 @@ app.get('/add-credits', async (request, response) => {
 });
 
 app.get('/get-users', async (request, response) => {
-  response.set('Access-Control-Allow-Origin', 'https://keywordcatcher.com')
+  response.set('Access-Control-Allow-Origin', 'https://app.keywordcatcher.com')
   // response.set('Access-Control-Allow-Origin', 'http://localhost:3000')
 
   let type = request.query.type
