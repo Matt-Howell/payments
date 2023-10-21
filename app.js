@@ -1,7 +1,7 @@
 const express = require('express');
 const paypal = require('paypal-rest-sdk');
 const { createClient } = require('@supabase/supabase-js')
-const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlc2J4eW51b2JjbnFmZHFleGljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3NzU4MzM5NywiZXhwIjoxOTkzMTU5Mzk3fQ.LdAzK9mbZpoO0Lz5Ep9p-1XzlvQxybr8pv5GNO7SsKc", {
+const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', process.env.sb_sk, {
   auth: {
     autoRefreshToken: false,
     persistSession: false
@@ -15,7 +15,7 @@ app.use(express.json());
 paypal.configure({
   'mode': 'live',
   'client_id': 'ATcPig8Sy-Mukb-v4gjRV6m4CWehRsjdOAvk1N_noQolt9j_IsKv-ridyROK6Mtma4SFfxwMrapjS5h1',
-  'client_secret': 'EGSX4_sqqAN0TrB-yNI4uxpEDsg3PmQBAzpFH4xO6gyOkFqy1tnT4bqaQngFRBhPtYBjeyomU9JG75Zd'
+  'client_secret': process.env.pp_sk
 });
 
 
