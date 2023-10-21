@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 paypal.configure({
-  'mode': 'live',
+  'mode': 'sandbox',
   'client_id': 'ATcPig8Sy-Mukb-v4gjRV6m4CWehRsjdOAvk1N_noQolt9j_IsKv-ridyROK6Mtma4SFfxwMrapjS5h1',
   'client_secret': process.env.pp_sk
 });
