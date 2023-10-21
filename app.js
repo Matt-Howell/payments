@@ -1,5 +1,5 @@
 const express = require('express');
-
+const paypal = require('paypal-rest-sdk');
 const { createClient } = require('@supabase/supabase-js')
 const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlc2J4eW51b2JjbnFmZHFleGljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3NzU4MzM5NywiZXhwIjoxOTkzMTU5Mzk3fQ.LdAzK9mbZpoO0Lz5Ep9p-1XzlvQxybr8pv5GNO7SsKc", {
   auth: {
@@ -11,6 +11,13 @@ const supabase = createClient('https://besbxynuobcnqfdqexic.supabase.co', "eyJhb
 const app = express();
 
 app.use(express.json());
+
+paypal.configure({
+  'mode': 'live',
+  'client_id': 'ATcPig8Sy-Mukb-v4gjRV6m4CWehRsjdOAvk1N_noQolt9j_IsKv-ridyROK6Mtma4SFfxwMrapjS5h1',
+  'client_secret': 'EGSX4_sqqAN0TrB-yNI4uxpEDsg3PmQBAzpFH4xO6gyOkFqy1tnT4bqaQngFRBhPtYBjeyomU9JG75Zd'
+});
+
 
 app.get('/add-credits', async (request, response) => {
   response.set('Access-Control-Allow-Origin', 'https://app.keywordcatcher.com')
@@ -50,7 +57,7 @@ app.get('/get-users', async (request, response) => {
   })
 
   let resultSend = []
-
+ 
   if (type == "all") {
     resultSend = [...users]
   } else {
@@ -58,6 +65,17 @@ app.get('/get-users', async (request, response) => {
   }
 
   response.send(resultSend)
+});
+
+app.post('/webhook', async (request, response) => {
+  paypal.notification.webhookEvent.getAndVerify(request.body, function (error, response) {
+    if (error) {
+        console.log(error);
+        throw error;
+    } else {
+        console.log(response);
+    }
+  });
 });
 
 app.listen(8080, () => console.log('Running on port 8080'));

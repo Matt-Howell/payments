@@ -7,11 +7,12 @@
     },
     "dependencies": {
         "@supabase/supabase-js": "^2.15.0",
+        "cors": "^2.8.5",
         "dotenv": "^8.0.0",
         "express": "^4.17.1",
         "express-session": "^1.17.0",
-        "stripe": "^9.11.0",
-        "cors": "^2.8.5",
-        "node-fetch": "^2.6.9"
+        "node-fetch": "^2.6.9",
+        "paypal-rest-sdk": "^1.8.1",
+        "stripe": "^9.11.0"
     }
 }
