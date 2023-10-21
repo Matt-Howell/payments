@@ -68,14 +68,7 @@ app.get('/get-users', async (request, response) => {
 });
 
 app.post('/webhook', async (request, response) => {
-  paypal.notification.webhookEvent.getAndVerify(request.body, function (error, response) {
-    if (error) {
-        console.log(error);
-        throw error;
-    } else {
-        console.log(response);
-    }
-  });
+    console.log(request.body);
 });
 
 app.listen(8080, () => console.log('Running on port 8080'));
