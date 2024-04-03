@@ -130,6 +130,8 @@ app.get('/redeem-code', async (request, response) => {
   .eq("code", code)
   .eq("redeemed", "FALSE")
 
+  console.log(data)
+
   if (data.length < 1) {
     response.status(400).send({valid:false})
   } else {
@@ -139,6 +141,7 @@ app.get('/redeem-code', async (request, response) => {
     .eq("code", code)
 
     let userID = request.query.user
+  console.log(userID)
 
     const { data: selectedUser } = await supabase
     .from('subscribed')
@@ -148,11 +151,16 @@ app.get('/redeem-code', async (request, response) => {
     const { data: userA } = await supabase.auth.admin.getUserById(
       userID
     )
+  console.log(selectedUser)
+  console.log(userA)
 
     if (selectedUser.length < 1) {
       await supabase
       .from('subscribed')
       .insert({user: userID, type:"1500", schedule:Date.now()})
+  console.log({user: userID, type:"1500", schedule:Date.now()})
+      
+    response.status(200).send({valid:true})
     } else {
       switch (selectedUser[0].type) {
         case "1500":
@@ -165,6 +173,7 @@ app.get('/redeem-code', async (request, response) => {
             userID,
             { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (5000) } }
           )
+    response.status(200).send({valid:true})
           break;
         case "5000":
           await supabase
@@ -175,6 +184,7 @@ app.get('/redeem-code', async (request, response) => {
             userID,
             { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (10000) } }
           )
+    response.status(200).send({valid:true})
           break;
         case "10000":
           await supabase
@@ -185,6 +195,7 @@ app.get('/redeem-code', async (request, response) => {
             userID,
             { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (15000) } }
           )
+    response.status(200).send({valid:true})
           break;
         case "15000":
           await supabase
@@ -195,13 +206,12 @@ app.get('/redeem-code', async (request, response) => {
             userID,
             { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (50000) } }
           )
+    response.status(200).send({valid:true})
           break;
         default:
           break;
       }
     }
-
-    response.status(200).send({valid:true})
   }
 });
 
