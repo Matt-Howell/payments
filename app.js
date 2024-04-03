@@ -86,17 +86,17 @@ app.post('/webhook', async (req, res) => {
           switch (planId) {
             case "P-98T28371NP590762EMUD7DTA":
               await supabase
-              .from('susbcribed')
+              .from('subscribed')
               .upsert({user: subscriptionId, type:"1500", schedule:startTime})
               break;
             case "P-7CA06431ME326415CMUD7ESY":
               await supabase
-              .from('susbcribed')
+              .from('subscribed')
               .upsert({user: subscriptionId, type:"10000", schedule:startTime})
               break;
             case "P-5SA08344YN3918458MUD7FPI":
               await supabase
-              .from('susbcribed')
+              .from('subscribed')
               .upsert({user: subscriptionId, type:"50000", schedule:startTime})
               break;
             default:
@@ -107,7 +107,7 @@ app.post('/webhook', async (req, res) => {
           const CancelledsubscriptionId = content.id;
           const cancellationTime = content.status_change_note.effective_time;
           await supabase
-          .from('susbcribed')
+          .from('subscribed')
           .delete()
           .eq("user", CancelledsubscriptionId)
           break;
@@ -141,7 +141,7 @@ app.get('/redeem-code', async (request, response) => {
     let userID = request.query.user
 
     const { data: selectedUser } = await supabase
-    .from('susbcribed')
+    .from('subscribed')
     .select("*")
     .eq("user", userID)
     
@@ -151,13 +151,13 @@ app.get('/redeem-code', async (request, response) => {
 
     if (selectedUser.length < 1) {
       await supabase
-      .from('susbcribed')
+      .from('subscribed')
       .insert({user: userID, type:"1500", schedule:Date.now()})
     } else {
       switch (selectedUser[0].type) {
         case "1500":
           await supabase
-          .from('susbcribed')
+          .from('subscribed')
           .update({type:"5000", schedule:Date.now()})
           .eq("user", userID)  
 
@@ -168,7 +168,7 @@ app.get('/redeem-code', async (request, response) => {
           break;
         case "5000":
           await supabase
-          .from('susbcribed')
+          .from('subscribed')
           .update({type:"10000", schedule:Date.now()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
@@ -178,7 +178,7 @@ app.get('/redeem-code', async (request, response) => {
           break;
         case "10000":
           await supabase
-          .from('susbcribed')
+          .from('subscribed')
           .update({type:"15000", schedule:Date.now()})
           .eq("user", userID)       
            await supabase.auth.admin.updateUserById(
@@ -188,7 +188,7 @@ app.get('/redeem-code', async (request, response) => {
           break;
         case "15000":
           await supabase
-          .from('susbcribed')
+          .from('subscribed')
           .update({type:"50000", schedule:Date.now()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
