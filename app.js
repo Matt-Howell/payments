@@ -157,8 +157,12 @@ app.get('/redeem-code', async (request, response) => {
     if (selectedUser.length < 1) {
       await supabase
       .from('subscribed')
-      .insert({user: userID, type:"1500", schedule:Date.now()})
-  console.log({user: userID, type:"1500", schedule:Date.now()})
+      .insert({user: userID, type:"1500", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
+      await supabase.auth.admin.updateUserById(
+            userID,
+            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (1500) } }
+          )
+  console.log({user: userID, type:"1500", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
       
     response.status(200).send({valid:true})
     } else {
@@ -166,7 +170,7 @@ app.get('/redeem-code', async (request, response) => {
         case "1500":
           await supabase
           .from('subscribed')
-          .update({type:"5000", schedule:Date.now()})
+          .update({type:"5000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
           .eq("user", userID)  
 
           await supabase.auth.admin.updateUserById(
@@ -178,7 +182,7 @@ app.get('/redeem-code', async (request, response) => {
         case "5000":
           await supabase
           .from('subscribed')
-          .update({type:"10000", schedule:Date.now()})
+          .update({type:"10000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
@@ -189,7 +193,7 @@ app.get('/redeem-code', async (request, response) => {
         case "10000":
           await supabase
           .from('subscribed')
-          .update({type:"15000", schedule:Date.now()})
+          .update({type:"15000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
           .eq("user", userID)       
            await supabase.auth.admin.updateUserById(
             userID,
@@ -200,7 +204,7 @@ app.get('/redeem-code', async (request, response) => {
         case "15000":
           await supabase
           .from('subscribed')
-          .update({type:"50000", schedule:Date.now()})
+          .update({type:"50000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
