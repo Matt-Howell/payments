@@ -130,8 +130,6 @@ app.get('/redeem-code', async (request, response) => {
   .eq("code", code)
   .eq("redeemed", "FALSE")
 
-  console.log(data)
-
   if (data.length < 1) {
     response.status(400).send({valid:false})
   } else {
@@ -141,81 +139,65 @@ app.get('/redeem-code', async (request, response) => {
     .eq("code", code)
 
     let userID = request.query.user
-  console.log(userID)
 
     const { data: selectedUser } = await supabase
-    .from('subscribed')
+    .from('susbcribed')
     .select("*")
     .eq("user", userID)
-    
-    const { data: userA } = await supabase.auth.admin.getUserById(
-      userID
-    )
-  console.log(selectedUser)
-  console.log(userA)
 
     if (selectedUser.length < 1) {
       await supabase
-      .from('subscribed')
-      .insert({user: userID, type:"1500", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
-      await supabase.auth.admin.updateUserById(
-            userID,
-            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (1500) } }
-          )
-  console.log({user: userID, type:"1500", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
-      
-    response.status(200).send({valid:true})
+      .from('susbcribed')
+      .insert({user: userID, type:"1500", schedule:Date.now()})
     } else {
       switch (selectedUser[0].type) {
         case "1500":
           await supabase
-          .from('subscribed')
-          .update({type:"5000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
+          .from('susbcribed')
+          .update({type:"5000", schedule:Date.now()})
           .eq("user", userID)  
 
           await supabase.auth.admin.updateUserById(
             userID,
-            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (5000) } }
+            { user_metadata: { credits: 5000 } }
           )
-    response.status(200).send({valid:true})
           break;
         case "5000":
           await supabase
-          .from('subscribed')
-          .update({type:"10000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
+          .from('susbcribed')
+          .update({type:"10000", schedule:Date.now()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
-            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (10000) } }
+            { user_metadata: { credits: 10000 } }
           )
-    response.status(200).send({valid:true})
           break;
         case "10000":
           await supabase
-          .from('subscribed')
-          .update({type:"15000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
+          .from('susbcribed')
+          .update({type:"15000", schedule:Date.now()})
           .eq("user", userID)       
            await supabase.auth.admin.updateUserById(
             userID,
-            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (15000) } }
+            { user_metadata: { credits: 15000 } }
           )
-    response.status(200).send({valid:true})
           break;
         case "15000":
           await supabase
-          .from('subscribed')
-          .update({type:"50000", schedule:new Date().toISOString().slice(0, 19).replace('T', ' ')})
+          .from('susbcribed')
+          .update({type:"50000", schedule:Date.now()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
-            { user_metadata: { credits: parseInt(userA.user.user_metadata.credits) + (50000) } }
+            { user_metadata: { credits: 50000 } }
           )
-    response.status(200).send({valid:true})
           break;
         default:
           break;
       }
     }
+
+    response.status(200).send({valid:true})
   }
 });
 
