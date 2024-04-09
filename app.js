@@ -148,15 +148,17 @@ app.get('/redeem-code', async (request, response) => {
     console.log(selectedUser)
 
     if (selectedUser.length < 1) {
-      await supabase
+    console.log("less than")
+      const { data: dll, error: sll } = await supabase
       .from('subscribed')
-      .insert({user: userID, type:"1500", schedule:Date.now()})
+      .insert({user: userID, type:"1500", schedule:new Date()})
+      console.log(sll)
     } else {
       switch (selectedUser[0].type) {
         case "1500":
           await supabase
           .from('subscribed')
-          .update({type:"5000", schedule:Date.now()})
+          .update({type:"5000", schedule:new Date()})
           .eq("user", userID)  
 
           await supabase.auth.admin.updateUserById(
@@ -167,7 +169,7 @@ app.get('/redeem-code', async (request, response) => {
         case "5000":
           await supabase
           .from('subscribed')
-          .update({type:"10000", schedule:Date.now()})
+          .update({type:"10000", schedule:new Date()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
@@ -177,7 +179,7 @@ app.get('/redeem-code', async (request, response) => {
         case "10000":
           await supabase
           .from('subscribed')
-          .update({type:"15000", schedule:Date.now()})
+          .update({type:"15000", schedule:new Date()})
           .eq("user", userID)       
            await supabase.auth.admin.updateUserById(
             userID,
@@ -187,7 +189,7 @@ app.get('/redeem-code', async (request, response) => {
         case "15000":
           await supabase
           .from('subscribed')
-          .update({type:"50000", schedule:Date.now()})
+          .update({type:"50000", schedule:new Date()})
           .eq("user", userID)
           await supabase.auth.admin.updateUserById(
             userID,
