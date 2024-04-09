@@ -145,14 +145,14 @@ app.get('/redeem-code', async (request, response) => {
     .select("*")
     .eq("user", userID)
 
-    console.log(selectedUser)
-
     if (selectedUser.length < 1) {
-    console.log("less than")
-      const { data: dll, error: sll } = await supabase
+      await supabase
       .from('subscribed')
       .insert({user: userID, type:"1500", schedule:new Date()})
-      console.log(sll)
+      await supabase.auth.admin.updateUserById(
+          userID,
+          { user_metadata: { credits: 1500 } }
+      )
     } else {
       switch (selectedUser[0].type) {
         case "1500":
