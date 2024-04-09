@@ -145,6 +145,8 @@ app.get('/redeem-code', async (request, response) => {
     .select("*")
     .eq("user", userID)
 
+    console.log(selectedUser)
+
     if (selectedUser.length < 1) {
       await supabase
       .from('subscribed')
